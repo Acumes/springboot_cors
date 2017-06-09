@@ -39,6 +39,20 @@ public class PersonServiceImpl implements IPersonService{
 		return repository.findAll();
 	}
 
+	@Override
+	public Person findById(Long id) {
+		return repository.findById(id);
+	}
+
+	@Override
+	public void delPersons(String ids) {
+		String [] iDs = ids.split(",");
+		for(String id : iDs){
+			repository.deleteById(Long.parseLong(id));
+		}
+		
+	}
+
 //	 private PageInfoResult convertToPageInfo(Page page){
 //	        PageInfoResult<PersonRp> pageInfoResult = new PageInfoResult<PersonRp>();
 //	        List<Person> personList = page.getContent();

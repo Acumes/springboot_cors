@@ -16,4 +16,6 @@ public interface IPersonService {
 //	PageInfoResult<PersonRq> list(PageRequest pageRequest);
 //	Page<Person> getPersonPageInfo(PageRequest pageRequest);
 	List<Person> findAll();
+	Person findById(Long id);
+	void delPersons(String ids);
 }

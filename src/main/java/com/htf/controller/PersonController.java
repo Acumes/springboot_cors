@@ -3,7 +3,10 @@ package com.htf.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,10 +42,9 @@ public class PersonController {
 	 * void deleteAll();
 	 * 
 	 */
-	@RequestMapping("/save")
-	public Person save(String name,String address,Integer age){
-		
-		Person p = personService.save(new Person(null, name, age, address));
+	@RequestMapping(value="/save",method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public Person save(@RequestBody Person person){
+		Person p = personService.save(person);
 		
 		return p;
 		
@@ -66,6 +68,26 @@ public class PersonController {
 	public List<Person> list(){
 //		return personSupport.getPageinfo(pageRequest);
 		return personService.findAll();
+	}
+	
+	@RequestMapping(value="/save1",method  = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public void save1(@RequestBody Person person){
+//		return personSupport.getPageinfo(pageRequest);
+		personService.save(person);
+	}
+	
+	@RequestMapping(value="/{id}",method  = RequestMethod.GET)
+	public Person getPersonInfo(@PathVariable String id){
+		return personService.findById(Long.parseLong(id));
+	}
+	
+	@RequestMapping(value="/modify",method  = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public void modifyPerson(@RequestBody Person person){
+		personService.save(person);
+	}
+	@RequestMapping(value="/dels",method  = RequestMethod.DELETE)
+	public void delPerson(@RequestParam String ids){
+		personService.delPersons(ids);
 	}
 	
 //	/**

@@ -15,6 +15,10 @@ public interface PersonRepository  extends JpaRepository<Person,String> ,JpaSpec
 
 	List<Person> findByAddress(String address);
 
+	Person findById(Long id);
+
+	void deleteById(Long id);
+
 //	@Query("select p from person p where p.address like  CONCAT('%',:keyWord,'%') or p.name like CONCAT('%',:keyWord,'%')")
 //	Page<Person> findByPage(@Param("keyword")String keyword, Pageable pageable);
 
