@@ -2,12 +2,12 @@ package com.htf.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.htf.domain.User;
-import com.htf.domain.UserInfo;
 import com.htf.model.DataStatus;
 import com.htf.model.request.UserRq;
 import com.htf.repository.UserRepository;
@@ -24,30 +24,11 @@ public class UserServuceImpl implements IUserService{
 	private PasswordHelper helper;
 	
 	public void save(UserRq userInfoRq) {
-//		return repository.save(user);
 		User user = new User();
-		user.setStatus(DataStatus.PreActive);
-		user.setCode(userInfoRq.getCode());
-		
-		UserInfo userInfo = new UserInfo();
-		userInfo.setEmail(userInfoRq.getEmail());
-		userInfo.setNickName(userInfoRq.getEmail());
-		userInfo.setMobile(userInfoRq.getEmail());
-		userInfo.setEnglishName(userInfoRq.getEmail());
-		userInfo.setOfficePhone(userInfoRq.getEmail());
-		userInfo.setGender(userInfoRq.getEmail());
-		user.setUserInfo(userInfo);
+		BeanUtils.copyProperties(userInfoRq,user);
+		user.setStatus("1");
 		helper.encryptionPassword(user);
 		repository.save(user);
-		User old = new User();
-		String password = "123456";
-		old.setSalt(user.getSalt());
-		old.setPassword(password);
-		helper.encryptionPassword(old);
-		System.out.println(old.getPassword().equals(user.getPassword()));
-		
-		
-		
 	}
 
 	
@@ -56,7 +37,7 @@ public class UserServuceImpl implements IUserService{
 	}
 
 	@Override
-	public User findById(Long id) {
+	public User findById(String id) {
 		return repository.findById(id);
 	}
 
@@ -70,7 +51,12 @@ public class UserServuceImpl implements IUserService{
 
 	@Override
 	public void delUsers(String ids) {
-		
+
+	}
+
+	@Override
+	public void deleteUser(String id) {
+		repository.delete(this.findById(id));
 	}
 
 //	 private PageInfoResult convertToPageInfo(Page page){

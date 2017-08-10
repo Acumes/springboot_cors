@@ -3,12 +3,11 @@ package com.htf.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.htf.domain.Person;
 import com.htf.domain.User;
 
-public interface UserRepository  extends JpaRepository<User,String> ,JpaSpecificationExecutor<Person>{
+public interface UserRepository  extends JpaRepository<User,String> ,JpaSpecificationExecutor<User>{
 
-	User findById(Long id);
+	User findById(String id);
 
 //	void deleteById(long parseLong);
 
